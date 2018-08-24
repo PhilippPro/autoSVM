@@ -56,3 +56,4 @@ plotOptPath(mod$learner.model$opt.result$opt.path)
 # Is there always a tradeoff between c and sigma?
 # Plot several graphs like above for several datasets
 # see practical guide to SVM
+# Visualisation for separating the points
