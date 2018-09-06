@@ -33,7 +33,7 @@ lrn2 = makeHyperoptWrapper(lrn2, par.config)
 # other kernels
 
 par.set = makeParamSet(
-  makeNumericParam("cost", lower = -5, upper = 15, trafo = function(x) 2^x)
+  makeNumericParam("cost", lower = -5, upper = 5, trafo = function(x) 2^x)
 )
 par.config = makeParConfig(
   par.set = par.set,
@@ -44,7 +44,7 @@ lrn1.linear = makeLearner("classif.svm", id = "svm.hyperopt.linear", predict.typ
 lrn1.linear = makeHyperoptWrapper(lrn1.linear, par.config)
 
 par.set = makeParamSet(
-  makeNumericParam("C", lower = -5, upper = 15, trafo = function(x) 2^x)
+  makeNumericParam("C", lower = -5, upper = 5, trafo = function(x) 2^x)
 )
 par.config = makeParConfig(
   par.set = par.set,

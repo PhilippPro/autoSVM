@@ -13,12 +13,12 @@ lrns = list(
   makeLearner("classif.svm", id = "def.svm", predict.type = "prob", kernel = "radial", gamma = 0.005, cost = 680),
   makeLearner("classif.ksvm", id = "def.ksvm", predict.type = "prob", kernel = "rbfdot", sigma = 0.005, C = 680),
   lrn1, #target?
-  lrn2, #target?
-  # Weitere MBO learner mit anderen kernels
-  lrn1.linear,
-  lrn2.linear,
-  lrn1.polynomial,
-  lrn2.polynomial
+  lrn2 #target?
+  # Weitere MBO learner mit anderen kernels; Brauchen zu lange/sind zu fehleranfällig!
+  # lrn1.linear,
+  # lrn2.linear,
+  # lrn1.polynomial,
+  # lrn2.polynomial
  # makeLearner("classif.lssvm", predict.type = "prob")
 )
 
@@ -48,7 +48,6 @@ bmr = list()
 task.ids.bmr = task.ids[which((unlist(time.estimate)-100)<60)]
 cbind(time.estimate, (unlist(time.estimate)-100)<60)
 unlist(time.estimate)[which((unlist(time.estimate)-100)<60)]
-tasks[which((unlist(time.estimate)-100)<60),]
 
 for(i in seq_along(task.ids.bmr)) { # 13 datasets
   print(i)
@@ -64,6 +63,7 @@ load("./benchmark/bmr.RData")
 # medium datasets (between 160 seconds and 10 minutes)
 task.ids.bmr2 = task.ids[which((unlist(time.estimate)-100)>60 & (unlist(time.estimate))<600)]
 unlist(time.estimate)[which((unlist(time.estimate)-100)>60 & (unlist(time.estimate))<600 )]
+rdesc = makeResampleDesc("CV", iters = 5)
 
 # 13 datasets
 for(i in seq_along(task.ids.bmr2)) {
@@ -246,7 +246,7 @@ for(i in seq_along(bmr)){
 }
 dev.off()
 
-
+# Anhand der Grafiken analysieren, in welche Richtung der Hyperparameterraum ausgeweitet werden sollte.
 
 
 
