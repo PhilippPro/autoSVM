@@ -83,6 +83,7 @@ unlist(time.estimate)[which((unlist(time.estimate))>600 & (unlist(time.estimate)
 
 rdesc = makeResampleDesc("CV", iters = 5)
 bmr_big = list()
+# Die tuning Algorithmen brauchen hier zu lange. Switche komplett auf liquidSVM.
 # Hier evtl. doch ein paar Wiederholungen einbauen, da die Streuung sonst zu groß ist. 
 # Zunächst einfach mal durchlaufen lassen (kann dannach hinzugefügt werden).
 for(i in seq_along(task.ids.bmr3)) {

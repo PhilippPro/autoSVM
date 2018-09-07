@@ -243,31 +243,48 @@ dev.off()
 
 
 # Vergleich mit MBO
-for(i in seq_along(bmr_liquid)){
+for(i in seq_along(bmr)[-17]){
   print(i)
-  print(bmr[[i]])
-  print(bmr_liquid[[i]])
-  }
+  res = c(bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$aggr[1],
+    bmr[[i]]$results[[1]]$ksvm.hyperopt.hyperopt$aggr[1],
+    bmr_liquid[[i]]$results[[1]]$classif.liquidSVM$aggr[1])
+  names(res) = c("svm.hyperopt", "ksvm.hyperopt", "liquidSVM")
+  print(res)
+}
 
-erg = erg_runtime = matrix(NA, 39, 2)
+erg = erg_runtime = matrix(NA, 39, 4)
 for(i in seq_along(bmr_liquid)){
   erg[i, 1] = bmr_liquid[[i]]$results[[1]]$classif.svm$aggr[1]
   erg[i, 2] = bmr_liquid[[i]]$results[[1]]$classif.liquidSVM$aggr[1]
   erg_runtime[i, 1] = bmr_liquid[[i]]$results[[1]]$classif.svm$aggr[2]
   erg_runtime[i, 2] = bmr_liquid[[i]]$results[[1]]$classif.liquidSVM$aggr[2]
+  if(i != 17 & i <=26) {
+    erg[i, 3] = bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$aggr[1]
+    erg[i, 4] = bmr[[i]]$results[[1]]$ksvm.hyperopt.hyperopt$aggr[1]
+    erg_runtime[i, 3] = bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$aggr[5]
+    erg_runtime[i, 4] = bmr[[i]]$results[[1]]$ksvm.hyperopt.hyperopt$aggr[5]
+  }
 }
 
 pdf("./benchmark/images/e1071_vs_liquidSVM.pdf")
-plot(erg[order(erg[,1]),1], type = "l", ylab = "mmce", xlab = "ordered datasets (by mmce)", main = "5foldCV", col = "red")
+plot(erg[order(erg[,1]),1], type = "l", ylab = "mmce", xlab = "ordered datasets (by mmce)", main = "5foldCV", col = "green")
 lines(erg[order(erg[,1]),2], col = "blue")
-legend("topleft", c("e1071-default", "liquidSVM-default"), col = c("red", "blue"), lty = 1)
+lines(erg[order(erg[,1]),3], col = "red")
+points(erg[order(erg[,1]),3], col = "red", pch = 15)
+lines(erg[order(erg[,1]),4], col = "violet")
+points(erg[order(erg[,1]),4], col = "violet", pch = 15)
+legend("topleft", c("e1071-default", "liquidSVM-default", "e1071-hyperopt", "ksvm-hyperopt"), col = c("green", "blue", "red", "violet"), lty = 1)
 
-plot(erg_runtime[order(erg_runtime[,1]),1], type = "l", ylab = "runtime", xlab = "ordered datasets (by runtime)", main = "5foldCV", col = "red")
+plot(erg_runtime[order(erg_runtime[,1]),1], type = "l", ylab = "runtime", xlab = "ordered datasets (by runtime)", main = "5foldCV", col = "green")
 lines(erg_runtime[order(erg_runtime[,1]),2], col = "blue")
-legend("topleft", c("e1071-default", "liquidSVM-default"), col = c("red", "blue"), lty = 1)
+lines(erg_runtime[order(erg_runtime[,1]),3], col = "red")
+lines(erg_runtime[order(erg_runtime[,1]),4], col = "violet")
+legend("topleft", c("e1071-default", "liquidSVM-default", "e1071-hyperopt", "ksvm-hyperopt"), col = c("green", "blue", "red", "violet"), lty = 1)
 
-plot(erg_runtime[order(erg_runtime[,1]),1], type = "l", ylab = "runtime (log-scale)", xlab = "ordered datasets (by runtime)", main = "5foldCV", col = "red", log = "y")
+plot(erg_runtime[order(erg_runtime[,1]),1], type = "l", ylim = range(erg_runtime, na.rm = T), ylab = "runtime (log-scale)", xlab = "ordered datasets (by runtime)", main = "5foldCV", col = "green", log = "y")
 lines(erg_runtime[order(erg_runtime[,1]),2], col = "blue")
-legend("topleft", c("e1071-default", "liquidSVM-default"), col = c("red", "blue"), lty = 1)
+lines(erg_runtime[order(erg_runtime[,1]),3], col = "red")
+lines(erg_runtime[order(erg_runtime[,1]),4], col = "violet")
+legend("topleft", c("e1071-default", "liquidSVM-default", "e1071-hyperopt", "ksvm-hyperopt"), col = c("green", "blue", "red", "violet"), lty = 1)
 dev.off()
   
