@@ -243,7 +243,11 @@ bmr
 pdf(paste0("benchmark/images/surrogates.pdf"))
 for(i in seq_along(bmr)){
   print(i)
-  plotOptPath(bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$extract[[1]]$opt.path, title = paste0("dataset_", i))
+  if(i != 17) { 
+    plotOptPath(bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$extract[[1]]$opt.path, title = paste0("dataset_", i))
+  } else {
+    plot(x = 1)
+  }
 }
 dev.off()
 

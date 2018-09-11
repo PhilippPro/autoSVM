@@ -145,4 +145,76 @@ lines(erg_runtime[order(erg_runtime[,1]),2], col = "blue")
 legend("topleft", c("ranger", "liquidSVM-default"), col = c("green", "blue"), lty = 1)
 dev.off()
 
+# Datasets where the difference is big:
+task.ids.all = c(task.ids.bmr, task.ids.bmr_ranger2, task.ids.bmr_ranger3, task.ids.bmr_ranger4)
+
+# ranger better than liquidSVM
+# Datensatz 27
+id = task.ids.all[[27]]
+task = getOMLTask(id)
+task = convertOMLTaskToMlr(task)$mlr.task
+task
+head(task$env$data,20)
+data = task$env$data
+data$class = as.numeric(data$class)
+M = cor(x = data.matrix(data))
+library('corrplot') #package corrplot
+corrplot(M, method = "circle")
+
+# Datensatz 32: madelon: many non-informative features -> high mtry would be even better, svm cannot handle it
+id = task.ids.all[[32]]
+task = getOMLTask(id)
+task = convertOMLTaskToMlr(task)$mlr.task
+task
+head(task$env$data,20)
+
+data = task$env$data
+x = data.matrix(data)
+M = cor(x = data.matrix(data))
+plot(M[, 501])
+# library(qtlcharts)
+# iplotCorr(x[,c(481:500,501)], reorder=FALSE)
+
+# Datensatz 33
+id = task.ids.all[[33]]
+task = getOMLTask(id)
+task = convertOMLTaskToMlr(task)$mlr.task
+task
+head(task$env$data,20)
+data = task$env$data
+x = data.matrix(data)
+M = cor(x = data.matrix(data))
+corrplot(M, method = "circle")
+
+# liquidSVM better than ranger
+# Datensatz 5: monks-problem2: Wird durch mtry-Tuning behoben, siehe tuneRanger-Paper
+id = task.ids.all[[5]]
+task = getOMLTask(id)
+task = convertOMLTaskToMlr(task)$mlr.task
+head(task$env$data,20)
+# Datensatz 31
+id = task.ids.all[[31]]
+task = getOMLTask(id)
+task = convertOMLTaskToMlr(task)$mlr.task
+task
+head(task$env$data,20)
+data = task$env$data
+x = data.matrix(data)
+M = cor(x = data.matrix(data))
+plot(M[, 101])
+corrplot(M, method = "circle")
+# Idee: Versuche mtry tuning
+head(data)
+library(gplots)
+library()
+heatmap(as.matrix(x[11:20,11:20]))
+
+# (Datensatz 23, Datensatz13)
+
+
+
+
+
+
+
 
