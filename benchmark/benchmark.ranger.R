@@ -207,7 +207,7 @@ corrplot(M, method = "circle")
 head(data)
 library(gplots)
 library()
-heatmap(as.matrix(x[11:20,11:20]))
+heatmap(x)
 
 # (Datensatz 23, Datensatz13)
 
