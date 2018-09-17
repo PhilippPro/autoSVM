@@ -238,12 +238,12 @@ for(i in 1:4) {
 
 
 
-# Visualisierumg der Surrogate Modelle
+# Visualisierung der Surrogate Modelle
 bmr
 pdf(paste0("benchmark/images/surrogates.pdf"))
 for(i in seq_along(bmr)){
   print(i)
-  if(i != 17) { 
+  if(i != 17) {
     plotOptPath(bmr[[i]]$results[[1]]$svm.hyperopt.hyperopt$extract[[1]]$opt.path, title = paste0("dataset_", i))
   } else {
     plot(x = 1)
